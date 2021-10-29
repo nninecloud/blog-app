@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.arimsky.blogapi.dao.TagMapper">
+
+    <resultMap id="BaseResultMap" type="com.arimsky.blogapi.pojo.entity.Tag">
+        <!--@Table blog_tag-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="tagName" column="tag_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+        id, avatar, tag_name
+        from msblogapp.blog_tag
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="avatar != null and avatar != ''">
+                and avatar = #{avatar}
+            </if>
+            <if test="tagName != null and tagName != ''">
+                and tag_name = #{tagName}
+            </if>
+        </where>
+    </select>
+
+    <!--  通过文章id 查询所对应的tags  -->
+    <select id="findTagsByArticleId" resultMap="BaseResultMap">
+        select
+        id, avatar, tag_name
+        from blog_tag
+        <where>
+            id in
+            (select tag_id from blog_article_tag where article_id = #{articleId})
+        </where>
+
+    </select>
+    <select id="findHotTagIds" resultType="java.lang.Long">
+        select tag_id
+        from blog_article_tag
+        group by tag_id
+        order by count(1) desc
+        limit #{limit}
+    </select>
+
+    <select id="findTagsByTagIds" parameterType="list" resultType="com.arimsky.blogapi.pojo.entity.Tag">
+        select
+        id, avatar, tag_name
+        from blog_tag
+        where id in 
+        <foreach collection="hotTagsIds" item="tagId" separator="," open="(" close=")">
+            #{tagId}
+        </foreach>
+    </select>
+
+
+</mapper>
