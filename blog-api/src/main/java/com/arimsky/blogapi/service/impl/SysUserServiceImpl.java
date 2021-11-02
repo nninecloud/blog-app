@@ -8,6 +8,7 @@ import com.arimsky.blogapi.pojo.entity.SysUser;
 import com.arimsky.blogapi.service.SysUserService;
 import com.arimsky.blogapi.utils.JWTUtils;
 import com.arimsky.blogapi.vo.LoginUserVo;
+import com.arimsky.blogapi.vo.UserVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserMapper sysUserMapper;
 
     @Resource
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
 
     @Override
@@ -70,6 +71,7 @@ public class SysUserServiceImpl implements SysUserService {
         String userJson = (String) redisTemplate.opsForValue().get("TOKEN_" + token);
         SysUser sysUser = JSON.parseObject(userJson, SysUser.class);
         LoginUserVo loginUserVo = new LoginUserVo();
+        assert sysUser != null;
         loginUserVo.setId(sysUser.getId());
         loginUserVo.setAccount(sysUser.getAccount());
         loginUserVo.setNickname(sysUser.getNickname());
@@ -81,7 +83,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser findUserByAccount(String account) {
         LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(SysUser::getAccount,account);
+        wrapper.eq(SysUser::getAccount, account);
         SysUser sysUser = sysUserMapper.selectOne(wrapper);
         return sysUser;
     }
@@ -89,9 +91,30 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public void save(SysUser sysUser) {
         int insert = sysUserMapper.insert(sysUser);
-        if (insert != 1){
+        if (insert != 1) {
             System.err.println("保存对象失败 save error");
         }
+    }
+
+    @Override
+    public UserVo findUserVoById(Long authorId) {
+
+        LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysUser::getId, authorId);
+
+        SysUser sysUser = sysUserMapper.selectOne(wrapper);
+        if (sysUser == null) {
+            sysUser = new SysUser();
+            sysUser.setId(1L);
+            sysUser.setAvatar("/static/img/logo.b3a48c0.png");
+            sysUser.setNickname("AriBlog");
+        }
+        UserVo userVo = new UserVo();
+        userVo.setAvatar(sysUser.getAvatar());
+        userVo.setNickname(sysUser.getNickname());
+        userVo.setId(sysUser.getId());
+
+        return userVo;
     }
 
 

@@ -2,6 +2,7 @@ package com.arimsky.blogapi.service;
 
 import com.arimsky.blogapi.base.ResultData;
 import com.arimsky.blogapi.pojo.entity.SysUser;
+import com.arimsky.blogapi.vo.UserVo;
 
 /**
  * (SysUser)表服务接口
@@ -20,4 +21,6 @@ public interface SysUserService {
     SysUser findUserByAccount(String account);
 
     void save(SysUser sysUser);
+
+    UserVo findUserVoById(Long authorId);
 }

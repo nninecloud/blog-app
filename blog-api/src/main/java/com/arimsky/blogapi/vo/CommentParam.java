@@ -4,21 +4,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 
-/**
- * @ClassName: LoginUserVo
- * @Author: aRimsiky
- * @Date: 2021/10/29
- * @Description
- */
-
 @Data
-public class LoginUserVo {
+public class CommentParam {
+
     @JsonSerialize(using = ToStringSerializer.class)
-    private Long id;
+    private Long articleId;
 
-    private String account;
+    private String content;
 
-    private String nickname;
+    private Long parent;
 
-    private String avatar;
+    private Long toUserId;
 }
