@@ -24,13 +24,12 @@ public class UserController {
     private SysUserService sysUserService;
 
     /**
-     * 获取当前用户信息
+     * 获取当前登录用户的信息
      * @param token
      * @return
      */
-    @GetMapping("/currentUser")
+    @GetMapping("currentUser")
     public ResultData<Object> currentUser(@RequestHeader("Authorization") String token){
-
         return sysUserService.getUserInfoByToken(token);
     }
 }

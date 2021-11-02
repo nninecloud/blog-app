@@ -16,4 +16,8 @@ public interface SysUserService {
     SysUser findUserByAccountPwd(String account, String pwd);
 
     ResultData<Object> getUserInfoByToken(String token);
+
+    SysUser findUserByAccount(String account);
+
+    void save(SysUser sysUser);
 }

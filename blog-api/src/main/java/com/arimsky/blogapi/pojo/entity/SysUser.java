@@ -1,6 +1,9 @@
 package com.arimsky.blogapi.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -11,6 +14,9 @@ import java.io.Serializable;
  * @since 2021-10-22 16:00:02
  */
 @TableName("blog_sys_user")
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class SysUser implements Serializable {
     private static final long serialVersionUID = 805507776346449656L;
 
@@ -21,11 +27,11 @@ public class SysUser implements Serializable {
     */
     private String account;
     /**
-    * 是否管理员
+    * 是否管理员  1 为 true
     */
-    private Object admin;
+    private Integer admin;
     /**
-    * 头像
+    * 头像 功能缺失
     */
     private String avatar;
     /**
@@ -33,9 +39,11 @@ public class SysUser implements Serializable {
     */
     private Long createDate;
     /**
-    * 是否删除
+    * 是否删除 1 为true
+     * 逻辑删除查询不太好使
     */
-    private Object deleted;
+//    @TableLogic
+    private Integer deleted;
     /**
     * 邮箱
     */
@@ -86,7 +94,7 @@ public class SysUser implements Serializable {
         return admin;
     }
 
-    public void setAdmin(Object admin) {
+    public void setAdmin(Integer admin) {
         this.admin = admin;
     }
 
@@ -110,7 +118,7 @@ public class SysUser implements Serializable {
         return deleted;
     }
 
-    public void setDeleted(Object deleted) {
+    public void setDeleted(Integer deleted) {
         this.deleted = deleted;
     }
 

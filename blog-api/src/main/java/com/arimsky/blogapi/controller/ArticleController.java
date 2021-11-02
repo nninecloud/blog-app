@@ -29,8 +29,6 @@ public class ArticleController {
 
     /**
      * 显示主页的文章列表,不排序
-     * @param pageBean
-     * @return
      */
     @PostMapping
     public ResultData<Object> articles(@RequestBody PageBean pageBean){
@@ -41,7 +39,6 @@ public class ArticleController {
 
     /**
      * 最热文章
-     * @return
      */
     @PostMapping("/hot")
     public ResultData<Object> hotArticles(){
@@ -52,7 +49,6 @@ public class ArticleController {
 
     /**
      * 最新文章
-     * @return
      */
     @PostMapping("/new")
     public ResultData<Object> newArticles(){
@@ -61,11 +57,25 @@ public class ArticleController {
         return ResultData.success(articleVoList);
     }
 
+    /**
+     * 文当归类,按日期
+     */
     @PostMapping("/listArchives")
     public ResultData<Object> listArchives(){
         List<Archives> archivesList = articleService.listArchives();
         return ResultData.success(archivesList);
     }
 
+    /**
+     * 文章详情
+     * @param id
+     * @return
+     */
+    @PostMapping("/view/{id}")
+    public ResultData<Object> findArticleById(@PathVariable("id") Long id) {
+        ArticleVo articleVo = articleService.findArticleById(id);
+
+        return ResultData.success(articleVo);
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.arimsky.blogapi;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
@@ -12,5 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class BlogAppTest {
 
+    @Test
+    public void tTest() throws Exception{
+        System.out.println(System.currentTimeMillis());
+    }
 
 }

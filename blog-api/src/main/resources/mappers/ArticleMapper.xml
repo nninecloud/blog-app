@@ -16,6 +16,7 @@
         <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
     </resultMap>
 
+    <!--  事件戳转换  -->
     <select id="listArchives" resultType="com.arimsky.blogapi.vo.Archives">
         select FROM_UNIXTIME(create_date / 1000, '%Y') as year,
                FROM_UNIXTIME(create_date / 1000, '%m') as month,

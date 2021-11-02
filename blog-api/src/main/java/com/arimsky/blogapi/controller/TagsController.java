@@ -17,6 +17,10 @@ public class TagsController {
     @Resource
     private TagService tagService;
 
+    /**
+     * 热门标签
+     * @return
+     */
     @GetMapping("/hot")
     public ResultData<Object> listHotTags() {
         int limit = 6;

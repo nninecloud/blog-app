@@ -10,24 +10,6 @@
     </resultMap>
 
 
-    <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="BaseResultMap">
-        select
-        id, avatar, tag_name
-        from msblogapp.blog_tag
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="avatar != null and avatar != ''">
-                and avatar = #{avatar}
-            </if>
-            <if test="tagName != null and tagName != ''">
-                and tag_name = #{tagName}
-            </if>
-        </where>
-    </select>
-
     <!--  通过文章id 查询所对应的tags  -->
     <select id="findTagsByArticleId" resultMap="BaseResultMap">
         select

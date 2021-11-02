@@ -22,4 +22,6 @@ public interface ArticleService {
     List<ArticleVo> newArticles(int limit);
 
     List<Archives> listArchives();
+
+    ArticleVo findArticleById(Long id);
 }

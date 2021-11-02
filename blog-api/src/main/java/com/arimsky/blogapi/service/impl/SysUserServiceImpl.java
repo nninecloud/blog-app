@@ -44,6 +44,7 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUser;
     }
 
+
     @Override
     public SysUser findUserByAccountPwd(String account, String pwd) {
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
@@ -75,6 +76,22 @@ public class SysUserServiceImpl implements SysUserService {
         loginUserVo.setAvatar(sysUser.getAvatar());
 
         return ResultData.success(loginUserVo);
+    }
+
+    @Override
+    public SysUser findUserByAccount(String account) {
+        LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysUser::getAccount,account);
+        SysUser sysUser = sysUserMapper.selectOne(wrapper);
+        return sysUser;
+    }
+
+    @Override
+    public void save(SysUser sysUser) {
+        int insert = sysUserMapper.insert(sysUser);
+        if (insert != 1){
+            System.err.println("保存对象失败 save error");
+        }
     }
 
 

@@ -13,14 +13,15 @@ import java.io.Serializable;
 @ToString
 public class Article implements Serializable {
     private static final long serialVersionUID = 395259022157314920L;
-    
+
+
     private Long articleId;
     /**
     * 评论数量
     */
     private Integer commentCounts;
     /**
-    * 创建时间
+    * 创建时间  事件戳
     */
     private Long createDate;
     /**

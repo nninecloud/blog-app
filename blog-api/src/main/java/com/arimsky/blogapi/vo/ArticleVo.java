@@ -37,7 +37,7 @@ public class ArticleVo implements Serializable {
 
     private List<TagVo> tags;
 
-    private List<CategoryVo> categorys;
+    private CategoryVo categorys;
 
     @Override
     public String toString() {

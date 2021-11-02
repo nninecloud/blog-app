@@ -1,5 +1,7 @@
-package com.arimsky.blogapi.base;
+package com.arimsky.blogapi.base.exception;
 
+import com.arimsky.blogapi.base.ResultData;
+import com.arimsky.blogapi.base.ReturnCode;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

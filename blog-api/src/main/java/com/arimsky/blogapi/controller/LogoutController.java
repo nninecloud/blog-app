@@ -15,6 +15,11 @@ public class LogoutController {
     @Autowired
     private LoginService loginService;
 
+    /**
+     * 退出
+     * @param token
+     * @return
+     */
     @GetMapping
     public ResultData<Object> logout(@RequestHeader("Authorization") String token) {
         loginService.logout(token);

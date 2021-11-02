@@ -1,6 +1,7 @@
 package com.arimsky.blogapi.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.arimsky.blogapi.base.BaseValue;
 import com.arimsky.blogapi.base.ErrorCode;
 import com.arimsky.blogapi.base.ResultData;
 import com.arimsky.blogapi.pojo.entity.SysUser;
@@ -8,12 +9,14 @@ import com.arimsky.blogapi.service.LoginService;
 import com.arimsky.blogapi.service.SysUserService;
 import com.arimsky.blogapi.utils.JWTUtils;
 import com.arimsky.blogapi.vo.LoginParam;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,15 +26,16 @@ import java.util.concurrent.TimeUnit;
  * @Description
  */
 
+@Slf4j
 @Service
 public class LoginServiceImpl implements LoginService {
 
-    private static final String salt = "ariBlog!@#";
+    private static final String salt = BaseValue.SALT.getValue();
 
     @Resource
     private SysUserService sysUserService;
     @Resource
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Override
     public ResultData<Object> login(LoginParam loginParam) {
@@ -60,5 +64,24 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public void logout(String token) {
         redisTemplate.delete("TOKEN_" + token);
+    }
+
+    @Override
+    public SysUser checkToken(String token) {
+        Map<String, Object> map = JWTUtils.checkToken(token);
+        if (map == null) {
+            return null;
+        }
+        // 通过token 拿出 sysUser Tojosn 后 的信息
+        String userJson = (String) redisTemplate.opsForValue().get("TOKEN_" + token);
+
+        if (!StringUtils.hasText(userJson)){
+            return null;
+        }
+        SysUser sysUser = JSON.parseObject(userJson, SysUser.class);
+        log.info("=================checkToken start===========================");
+        log.info(sysUser.toString());
+        log.info("=================checkToken end===========================");
+        return sysUser;
     }
 }

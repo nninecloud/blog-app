@@ -1,6 +1,5 @@
 package com.arimsky.blogapi.service.impl;
 
-import com.arimsky.blogapi.dao.ArticleTagMapper;
 import com.arimsky.blogapi.dao.TagMapper;
 import com.arimsky.blogapi.pojo.entity.Tag;
 import com.arimsky.blogapi.service.TagService;
@@ -24,8 +23,6 @@ import java.util.List;
 public class TagServiceImpl implements TagService {
     @Resource
     private TagMapper tagMapper;
-    @Resource
-    private ArticleTagMapper articleTagMapper;
 
     @Override
     public List<TagVo> findTagsByArticleId(Long articleId) {

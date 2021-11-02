@@ -1,5 +1,8 @@
 package com.arimsky.blogapi.pojo.entity;
 
+import lombok.Data;
+import lombok.ToString;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +11,8 @@ import java.io.Serializable;
  * @author arimsky
  * @since 2021-10-22 16:00:02
  */
+@Data
+@ToString
 public class Comment implements Serializable {
     private static final long serialVersionUID = -12531098839216638L;
     
@@ -17,7 +22,7 @@ public class Comment implements Serializable {
     
     private Long createDate;
     
-    private Integer articleId;
+    private Long articleId;
     
     private Long authorId;
     
@@ -25,71 +30,7 @@ public class Comment implements Serializable {
     
     private Long toUid;
     
-    private String level;
+    private Integer level;
 
-
-    public Long getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(Long commentId) {
-        this.commentId = commentId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Long getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Long createDate) {
-        this.createDate = createDate;
-    }
-
-    public Integer getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
-    }
-
-    public Long getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
-    }
-
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-
-    public Long getToUid() {
-        return toUid;
-    }
-
-    public void setToUid(Long toUid) {
-        this.toUid = toUid;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
 
 }
