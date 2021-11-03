@@ -16,11 +16,11 @@ import com.arimsky.blogapi.vo.params.PageBean;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -197,9 +197,15 @@ public class ArticleServiceImpl implements ArticleService {
         }
 //        isBody 首页展示
         // joda 时间戳 转换 , 不好换了
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        articleVo.setCreateDate(String.format(new DateTime(article.getCreateDate()).toString(), "yyyy-MM-dd HH:mm"));
-        articleVo.setCreateDate(formatter.format(article.getCreateDate()));
+        // 有的查询不需要 time 属性, 但是默认会是0 但是SimpleDateFormat 不能转化
+//        if (articleVo.getCreateDate() == "" || article.getCreateDate() == 0) {
+//            articleVo.setCreateDate("");
+//        } else {
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            articleVo.setCreateDate(formatter.format(article.getCreateDate()));
+//        }
+        articleVo.setCreateDate(String.format(new DateTime(article.getCreateDate()).toString(), "yyyy-MM-dd HH:mm"));
+
 
         if (isTags) {
             List<TagVo> tags = tagsService.findTagsByArticleId(article.getArticleId());
@@ -207,7 +213,6 @@ public class ArticleServiceImpl implements ArticleService {
         }
         return articleVo;
     }
-
 
 
     public ArticleVo copy(Article article, boolean isAuthor,

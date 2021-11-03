@@ -89,7 +89,8 @@ class ArticleMapperTest {
         articleVo.setCreateDate(dateString);
         System.out.println(articleVo.getCreateDate());//"yyyy-MM-dd HH:mm"
         System.out.println(formatter.format(article.getCreateDate()));
+//        System.out.println(formatter.format(0)));
         System.out.println(String.format(new DateTime(date).toString(), "yyyy-MM-dd HH:mm:ss"));
-        System.out.println(String.format(new DateTime("").toString(), "yyyy-MM-dd HH:mm:ss"));
+        System.out.println(String.format(new DateTime(0).toString(), "yyyy-MM-dd HH:mm:ss"));
     }
 }
