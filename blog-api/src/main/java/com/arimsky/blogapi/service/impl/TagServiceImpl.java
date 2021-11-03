@@ -1,5 +1,6 @@
 package com.arimsky.blogapi.service.impl;
 
+import com.arimsky.blogapi.base.ErrorCode;
 import com.arimsky.blogapi.base.ResultData;
 import com.arimsky.blogapi.dao.TagMapper;
 import com.arimsky.blogapi.pojo.entity.Tag;
@@ -36,7 +37,7 @@ public class TagServiceImpl implements TagService {
     public List<TagVo> hotTags(int limit) {
 
         List<Long> hotTagsIds = tagMapper.findHotTagIds(limit);
-        if (CollectionUtils.isEmpty(hotTagsIds)){
+        if (CollectionUtils.isEmpty(hotTagsIds)) {
             return Collections.emptyList();
         }
 
@@ -48,10 +49,37 @@ public class TagServiceImpl implements TagService {
     @Override
     public ResultData<Object> findAll() {
 
+        LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
+        //noinspection unchecked
+        wrapper.select(Tag::getId, Tag::getTagName).orderByAsc(Tag::getId);
+
+        List<Tag> tags = tagMapper.selectList(wrapper);
+
+        return ResultData.success(copyList(tags));
+    }
+
+    @Override
+    public ResultData<Object> findAllDetail() {
         //noinspection unchecked
         List<Tag> tags = tagMapper.selectList(new LambdaQueryWrapper<Tag>().orderByAsc(Tag::getId));
 
         return ResultData.success(copyList(tags));
+
+    }
+
+    @Override
+    public ResultData<Object> findDetailById(Long id) {
+
+        if (id == null) {
+            return ResultData.error(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMessage());
+        }
+
+        LambdaQueryWrapper<Tag> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Tag::getId, id);
+
+        Tag tag = tagMapper.selectOne(wrapper);
+
+        return ResultData.success(copy(tag));
     }
 
     private List<TagVo> copyList(List<Tag> records) {
@@ -64,7 +92,7 @@ public class TagServiceImpl implements TagService {
 
     private TagVo copy(Tag tag) {
         TagVo tagVo = new TagVo();
-        BeanUtils.copyProperties(tag,tagVo);
+        BeanUtils.copyProperties(tag, tagVo);
 //        tagVo.setId(tag.getId());
         return tagVo;
     }

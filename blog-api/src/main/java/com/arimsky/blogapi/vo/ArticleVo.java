@@ -3,6 +3,7 @@ package com.arimsky.blogapi.vo;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -14,7 +15,9 @@ import java.util.List;
  */
 
 @Data
+@ToString
 public class ArticleVo{
+
     // 太长了超出前端限制，类型不匹配了 转换成字符串格式
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
@@ -39,21 +42,6 @@ public class ArticleVo{
 
     private List<TagVo> tags;
 
-    private CategoryVo categorys;
+    private CategoryVo category;
 
-    @Override
-    public String toString() {
-        return "ArticleVo{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", summary='" + summary + '\'' +
-                ", commentCounts=" + commentCounts +
-                ", viewCounts=" + viewCounts +
-                ", weight=" + weight +
-                ", createDate='" + createDate + '\'' +
-                ", author='" + author + '\'' +
-                ", tags=" + tags +
-                ", categorys=" + categorys +
-                '}';
-    }
 }

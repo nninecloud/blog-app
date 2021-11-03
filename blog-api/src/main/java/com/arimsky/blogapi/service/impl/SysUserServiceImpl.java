@@ -70,8 +70,13 @@ public class SysUserServiceImpl implements SysUserService {
         // 通过token 拿出 sysUser Tojosn 后 的信息
         String userJson = redisTemplate.opsForValue().get("TOKEN_" + token);
         SysUser sysUser = JSON.parseObject(userJson, SysUser.class);
+        if (sysUser == null) {
+            /**
+             * redis 每次重启之后数据都被清空了,找不到之前的token
+             */
+            return ResultData.error(ErrorCode.NO_LOGIN.getCode(), ErrorCode.NO_LOGIN.getMessage());
+        }
         LoginUserVo loginUserVo = new LoginUserVo();
-        assert sysUser != null;
         loginUserVo.setId(sysUser.getId());
         loginUserVo.setAccount(sysUser.getAccount());
         loginUserVo.setNickname(sysUser.getNickname());

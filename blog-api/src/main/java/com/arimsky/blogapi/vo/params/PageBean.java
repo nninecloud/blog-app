@@ -28,6 +28,10 @@ public class PageBean {
 
 	private String month;
 
+	/**
+	 * 转化成 0X 的格式
+	 * @return month
+	 */
 	public String getMonth(){
 		if (this.month != null && this.month.length() == 1){
 			return "0"+this.month;

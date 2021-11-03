@@ -16,11 +16,11 @@ import com.arimsky.blogapi.vo.params.PageBean;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +48,27 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleVo> listArticlesPage(PageBean pageBean) {
 
         LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
+
+        if (pageBean.getCategoryId() != null) {
+            wrapper.eq(Article::getCategoryId, pageBean.getCategoryId());
+        }
+
+        List<Long> articleIdList = new ArrayList<>();
+
+        if (pageBean.getTagId() != null) {
+            LambdaQueryWrapper<ArticleTag> articleTagWrapper = new LambdaQueryWrapper<>();
+            articleTagWrapper.eq(ArticleTag::getTagId, pageBean.getTagId());
+            List<ArticleTag> articleTags = articleTagMapper.selectList(articleTagWrapper);
+            for (ArticleTag articleTag : articleTags) {
+                articleIdList.add(articleTag.getArticleId());
+            }
+            if (articleIdList.size() > 0) {
+                wrapper.in(Article::getArticleId, articleIdList);
+            }
+        }
+
         //noinspection unchecked
-        wrapper.orderByDesc(Article::getCommentCounts);
+        wrapper.orderByDesc(Article::getWeight, Article::getCreateDate);
         Page<Article> page = new Page<>(pageBean.getPage(), pageBean.getPageSize());
 
         Page<Article> pages = articleMapper.selectPage(page, wrapper);
@@ -82,7 +101,11 @@ public class ArticleServiceImpl implements ArticleService {
         return copyList(articles, false, false);
     }
 
-    // todo
+    /**
+     * 查询时转换事件戳
+     *
+     * @return List<Archives>
+     */
     @Override
     public List<Archives> listArchives() {
         return articleMapper.listArchives();
@@ -124,7 +147,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.setTitle(articleParam.getTitle());
         article.setViewCounts(0);
         article.setWeight(Article.Article_Common);
-        article.setCategoryId(articleParam.getCategory().getId());
+        article.setCategoryId(Math.toIntExact(articleParam.getCategory().getId()));
         articleMapper.insert(article);
 
         //tags
@@ -164,6 +187,7 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleVo copy(Article article, boolean isAuthor, boolean isTags) {
         ArticleVo articleVo = new ArticleVo();
         BeanUtils.copyProperties(article, articleVo);
+
         // 两个的id 没对应好手动设置
         articleVo.setId(article.getArticleId());
         if (isAuthor) {
@@ -172,8 +196,10 @@ public class ArticleServiceImpl implements ArticleService {
             articleVo.setAuthor(sysUser.getNickname());
         }
 //        isBody 首页展示
-        // joda 时间戳 转换
-        articleVo.setCreateDate(String.format(new DateTime(article.getCreateDate()).toString(), "yyyy-MM-dd HH:mm"));
+        // joda 时间戳 转换 , 不好换了
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        articleVo.setCreateDate(String.format(new DateTime(article.getCreateDate()).toString(), "yyyy-MM-dd HH:mm"));
+        articleVo.setCreateDate(formatter.format(article.getCreateDate()));
 
         if (isTags) {
             List<TagVo> tags = tagsService.findTagsByArticleId(article.getArticleId());
@@ -181,6 +207,8 @@ public class ArticleServiceImpl implements ArticleService {
         }
         return articleVo;
     }
+
+
 
     public ArticleVo copy(Article article, boolean isAuthor,
                           boolean isTags, boolean isBody, boolean isCategory) {
@@ -194,7 +222,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         if (isCategory) {
             CategoryVo categoryVo = categoryService.findCategoryById(article.getCategoryId());
-            articleVo.setCategorys(categoryVo);
+            articleVo.setCategory(categoryVo);
         }
 
         return articleVo;

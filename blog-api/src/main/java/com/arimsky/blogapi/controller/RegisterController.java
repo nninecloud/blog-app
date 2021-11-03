@@ -1,6 +1,7 @@
 package com.arimsky.blogapi.controller;
 
 import com.arimsky.blogapi.base.ResultData;
+import com.arimsky.blogapi.common.aop.LogAnnotation;
 import com.arimsky.blogapi.service.RegisterService;
 import com.arimsky.blogapi.vo.params.LoginParam;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ public class RegisterController {
      * 注册
      */
     @PostMapping
+    @LogAnnotation(module = "注册", operation = "用户注册")
     public ResultData<Object> register(@RequestBody LoginParam loginParam){
 //        System.out.println(loginParam);
         return registerService.register(loginParam);

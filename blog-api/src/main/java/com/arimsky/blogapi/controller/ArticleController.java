@@ -1,6 +1,7 @@
 package com.arimsky.blogapi.controller;
 
 import com.arimsky.blogapi.base.ResultData;
+import com.arimsky.blogapi.common.aop.LogAnnotation;
 import com.arimsky.blogapi.service.ArticleService;
 import com.arimsky.blogapi.vo.Archives;
 import com.arimsky.blogapi.vo.ArticleVo;
@@ -32,6 +33,8 @@ public class ArticleController {
      * 显示主页的文章列表,不排序
      */
     @PostMapping
+    //加上此注解 代表要对此接口记录日志
+    @LogAnnotation(module="文章",operation="获取文章列表")
     public ResultData<Object> articles(@RequestBody PageBean pageBean){
         List<ArticleVo> articleVoList = articleService.listArticlesPage(pageBean);
 
@@ -59,9 +62,18 @@ public class ArticleController {
     }
 
     /**
-     * 文当归类,按日期
+     * 文当归档,按日期 每月归档
+     *   "data": [
+     *     {
+     *       "year": 2021,
+     *       "month": 5,
+     *       "count": 1
+     *     },
+     *   ]
+     *   把时间戳转换成年月日
      */
     @PostMapping("/listArchives")
+    @LogAnnotation(module = "文章", operation = "文章归档")
     public ResultData<Object> listArchives(){
         List<Archives> archivesList = articleService.listArchives();
         return ResultData.success(archivesList);
@@ -77,7 +89,13 @@ public class ArticleController {
         return ResultData.success(articleVo);
     }
 
+    /**
+     * 写文章,发布
+     * @param articleParam 写文章,发布封装参数
+     * @return articleVo 封装后的文章对象
+     */
     @PostMapping("publish")
+    @LogAnnotation(module="文章",operation="写文章,发布")
     public ResultData<Object> publish(@RequestBody ArticleParam articleParam){
         return articleService.publish(articleParam);
     }

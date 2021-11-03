@@ -14,4 +14,8 @@ public interface CategoryService {
     CategoryVo findCategoryById(Integer categoryId);
 
     ResultData<Object> finAll();
+
+    ResultData<Object> finAllDetail();
+
+    ResultData<Object> categoriesDetailById(Long id);
 }
