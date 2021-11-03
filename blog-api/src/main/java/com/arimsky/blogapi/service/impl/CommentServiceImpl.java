@@ -7,7 +7,7 @@ import com.arimsky.blogapi.pojo.entity.SysUser;
 import com.arimsky.blogapi.service.CommentService;
 import com.arimsky.blogapi.service.SysUserService;
 import com.arimsky.blogapi.utils.UserThreadLocal;
-import com.arimsky.blogapi.vo.CommentParam;
+import com.arimsky.blogapi.vo.params.CommentParam;
 import com.arimsky.blogapi.vo.CommentVo;
 import com.arimsky.blogapi.vo.UserVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;

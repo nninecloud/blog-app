@@ -8,7 +8,7 @@ import com.arimsky.blogapi.pojo.entity.SysUser;
 import com.arimsky.blogapi.service.LoginService;
 import com.arimsky.blogapi.service.SysUserService;
 import com.arimsky.blogapi.utils.JWTUtils;
-import com.arimsky.blogapi.vo.LoginParam;
+import com.arimsky.blogapi.vo.params.LoginParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -73,7 +73,7 @@ public class LoginServiceImpl implements LoginService {
             return null;
         }
         // 通过token 拿出 sysUser Tojosn 后 的信息
-        String userJson = (String) redisTemplate.opsForValue().get("TOKEN_" + token);
+        String userJson = redisTemplate.opsForValue().get("TOKEN_" + token);
 
         if (!StringUtils.hasText(userJson)){
             return null;

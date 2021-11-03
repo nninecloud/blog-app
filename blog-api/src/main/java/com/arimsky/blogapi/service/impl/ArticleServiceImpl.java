@@ -1,10 +1,18 @@
 package com.arimsky.blogapi.service.impl;
 
+import com.arimsky.blogapi.base.ResultData;
+import com.arimsky.blogapi.dao.ArticleBodyMapper;
 import com.arimsky.blogapi.dao.ArticleMapper;
+import com.arimsky.blogapi.dao.ArticleTagMapper;
 import com.arimsky.blogapi.pojo.entity.Article;
+import com.arimsky.blogapi.pojo.entity.ArticleBody;
+import com.arimsky.blogapi.pojo.entity.ArticleTag;
 import com.arimsky.blogapi.pojo.entity.SysUser;
 import com.arimsky.blogapi.service.*;
+import com.arimsky.blogapi.utils.UserThreadLocal;
 import com.arimsky.blogapi.vo.*;
+import com.arimsky.blogapi.vo.params.ArticleParam;
+import com.arimsky.blogapi.vo.params.PageBean;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -77,13 +85,11 @@ public class ArticleServiceImpl implements ArticleService {
     // todo
     @Override
     public List<Archives> listArchives() {
-        List<Archives> archivesList = articleMapper.listArchives();
-        return archivesList;
+        return articleMapper.listArchives();
     }
 
     @Resource
     private ThreadService threadService;
-
 
     @Override
     public ArticleVo findArticleById(Long id) {
@@ -95,7 +101,55 @@ public class ArticleServiceImpl implements ArticleService {
         threadService.updateViewCount(articleMapper, article);
         // 加一后 更新 本次显示的访问次数
         article.setViewCounts(article.getViewCounts() + 1);
+
         return copy(article, true, true, true, true);
+    }
+
+    @Resource
+    private ArticleTagMapper articleTagMapper;
+    @Resource
+    private ArticleBodyMapper articleBodyMapper;
+
+    @Override
+    public ResultData<Object> publish(ArticleParam articleParam) {
+
+        SysUser sysUser = UserThreadLocal.get();
+
+        Article article = new Article();
+
+        article.setAuthorId(sysUser.getId());
+        article.setCommentCounts(0);
+        article.setCreateDate(System.currentTimeMillis());
+        article.setSummary(articleParam.getSummary());
+        article.setTitle(articleParam.getTitle());
+        article.setViewCounts(0);
+        article.setWeight(Article.Article_Common);
+        article.setCategoryId(articleParam.getCategory().getId());
+        articleMapper.insert(article);
+
+        //tags
+        List<TagVo> tags = articleParam.getTags();
+        if (tags != null) {
+            for (TagVo tag : tags) {
+                ArticleTag articleTag = new ArticleTag();
+                articleTag.setTagId(tag.getId());
+                articleTag.setArticleId(article.getArticleId());
+                articleTagMapper.save(articleTag);
+            }
+        }
+        ArticleBody articleBody = new ArticleBody();
+        articleBody.setContent(articleParam.getBody().getContent());
+        articleBody.setContentHtml(articleParam.getBody().getContentHtml());
+        articleBody.setArticleId(article.getArticleId());
+        articleBodyMapper.insert(articleBody);
+
+        article.setBodyId(articleBody.getBodyId());
+        articleMapper.updateById(article);
+        ArticleVo articleVo = new ArticleVo();
+        articleVo.setId(article.getArticleId());
+
+
+        return ResultData.success(articleVo);
     }
 
     private List<ArticleVo> copyList(List<Article> records, boolean isAuthor, boolean isTags) {

@@ -68,7 +68,7 @@ public class SysUserServiceImpl implements SysUserService {
             return ResultData.error(ErrorCode.NO_LOGIN.getCode(), ErrorCode.NO_LOGIN.getMessage());
         }
         // 通过token 拿出 sysUser Tojosn 后 的信息
-        String userJson = (String) redisTemplate.opsForValue().get("TOKEN_" + token);
+        String userJson = redisTemplate.opsForValue().get("TOKEN_" + token);
         SysUser sysUser = JSON.parseObject(userJson, SysUser.class);
         LoginUserVo loginUserVo = new LoginUserVo();
         assert sysUser != null;
@@ -84,8 +84,7 @@ public class SysUserServiceImpl implements SysUserService {
     public SysUser findUserByAccount(String account) {
         LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(SysUser::getAccount, account);
-        SysUser sysUser = sysUserMapper.selectOne(wrapper);
-        return sysUser;
+        return sysUserMapper.selectOne(wrapper);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.arimsky.blogapi.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -13,7 +15,8 @@ import java.io.Serializable;
 @ToString
 public class Tag implements Serializable {
     private static final long serialVersionUID = -86916806464546532L;
-    
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     
     private String avatar;

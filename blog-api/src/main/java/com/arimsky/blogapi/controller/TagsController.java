@@ -18,8 +18,16 @@ public class TagsController {
     private TagService tagService;
 
     /**
+     * 所有文章标签
+     */
+    @GetMapping
+    public ResultData<Object> tags(){
+
+        return tagService.findAll();
+    }
+
+    /**
      * 热门标签
-     * @return
      */
     @GetMapping("/hot")
     public ResultData<Object> listHotTags() {

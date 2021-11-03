@@ -1,7 +1,7 @@
 package com.arimsky.blogapi.service;
 
 import com.arimsky.blogapi.base.ResultData;
-import com.arimsky.blogapi.vo.LoginParam;
+import com.arimsky.blogapi.vo.params.LoginParam;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

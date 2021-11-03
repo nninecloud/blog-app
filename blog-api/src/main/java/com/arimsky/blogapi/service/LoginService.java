@@ -2,7 +2,7 @@ package com.arimsky.blogapi.service;
 
 import com.arimsky.blogapi.base.ResultData;
 import com.arimsky.blogapi.pojo.entity.SysUser;
-import com.arimsky.blogapi.vo.LoginParam;
+import com.arimsky.blogapi.vo.params.LoginParam;
 
 /**
  * @ClassName: LoginService

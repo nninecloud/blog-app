@@ -15,7 +15,7 @@ import java.util.List;
 
 @Data
 public class ArticleVo{
-
+    // 太长了超出前端限制，类型不匹配了 转换成字符串格式
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 

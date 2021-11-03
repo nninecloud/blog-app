@@ -10,7 +10,8 @@ import lombok.Data;
  */
 @Data
 public class CategoryVo {
-    private Long id;
+
+    private Integer id;
 
     private String avatar;
 

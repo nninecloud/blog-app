@@ -1,4 +1,4 @@
-package com.arimsky.blogapi.vo;
+package com.arimsky.blogapi.vo.params;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

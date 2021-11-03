@@ -1,6 +1,8 @@
 package com.arimsky.blogapi.pojo.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.ToString;
 
@@ -19,6 +21,7 @@ public class Comment implements Serializable {
 
     //防止前端 精度损失 把id转为string
 //    @JsonSerialize(using = ToStringSerializer.class)
+    @TableId(value = "comment_id", type = IdType.AUTO)
     private Long commentId;
     
     private String content;

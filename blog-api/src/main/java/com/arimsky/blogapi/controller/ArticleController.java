@@ -1,10 +1,11 @@
 package com.arimsky.blogapi.controller;
 
-import com.arimsky.blogapi.vo.Archives;
-import com.arimsky.blogapi.vo.ArticleVo;
-import com.arimsky.blogapi.vo.PageBean;
 import com.arimsky.blogapi.base.ResultData;
 import com.arimsky.blogapi.service.ArticleService;
+import com.arimsky.blogapi.vo.Archives;
+import com.arimsky.blogapi.vo.ArticleVo;
+import com.arimsky.blogapi.vo.params.ArticleParam;
+import com.arimsky.blogapi.vo.params.PageBean;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -68,14 +69,17 @@ public class ArticleController {
 
     /**
      * 文章详情
-     * @param id
-     * @return
      */
     @PostMapping("/view/{id}")
     public ResultData<Object> findArticleById(@PathVariable("id") Long id) {
         ArticleVo articleVo = articleService.findArticleById(id);
 
         return ResultData.success(articleVo);
+    }
+
+    @PostMapping("publish")
+    public ResultData<Object> publish(@RequestBody ArticleParam articleParam){
+        return articleService.publish(articleParam);
     }
 
 }

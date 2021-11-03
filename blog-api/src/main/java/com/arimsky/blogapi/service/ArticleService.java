@@ -1,8 +1,10 @@
 package com.arimsky.blogapi.service;
 
+import com.arimsky.blogapi.base.ResultData;
 import com.arimsky.blogapi.vo.Archives;
 import com.arimsky.blogapi.vo.ArticleVo;
-import com.arimsky.blogapi.vo.PageBean;
+import com.arimsky.blogapi.vo.params.ArticleParam;
+import com.arimsky.blogapi.vo.params.PageBean;
 
 import java.util.List;
 
@@ -24,4 +26,6 @@ public interface ArticleService {
     List<Archives> listArchives();
 
     ArticleVo findArticleById(Long id);
+
+    ResultData<Object> publish(ArticleParam articleParam);
 }

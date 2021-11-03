@@ -1,5 +1,9 @@
 package com.arimsky.blogapi.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -8,9 +12,11 @@ import java.io.Serializable;
  * @author arimsky
  * @since 2021-10-22 16:00:02
  */
+@Data
 public class ArticleTag implements Serializable {
     private static final long serialVersionUID = 572862250035861758L;
-    
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     
     private Long articleId;
@@ -18,28 +24,5 @@ public class ArticleTag implements Serializable {
     private Long tagId;
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
-    }
-
-    public Long getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(Long tagId) {
-        this.tagId = tagId;
-    }
 
 }

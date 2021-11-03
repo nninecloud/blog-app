@@ -1,5 +1,8 @@
 package com.arimsky.blogapi.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 
 /**
@@ -10,7 +13,8 @@ import java.io.Serializable;
  */
 public class Category implements Serializable {
     private static final long serialVersionUID = -49248804010545427L;
-    
+
+    @TableId(value = "category_id", type = IdType.AUTO)
     private Long categoryId;
     
     private String avatar;

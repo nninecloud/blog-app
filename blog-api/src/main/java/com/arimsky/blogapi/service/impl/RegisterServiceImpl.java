@@ -8,7 +8,7 @@ import com.arimsky.blogapi.pojo.entity.SysUser;
 import com.arimsky.blogapi.service.RegisterService;
 import com.arimsky.blogapi.service.SysUserService;
 import com.arimsky.blogapi.utils.JWTUtils;
-import com.arimsky.blogapi.vo.LoginParam;
+import com.arimsky.blogapi.vo.params.LoginParam;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;

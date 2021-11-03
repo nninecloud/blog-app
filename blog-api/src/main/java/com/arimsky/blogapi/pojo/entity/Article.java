@@ -1,5 +1,7 @@
 package com.arimsky.blogapi.pojo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -14,6 +16,12 @@ import java.io.Serializable;
 public class Article implements Serializable {
     private static final long serialVersionUID = 395259022157314920L;
 
+    // 置顶
+    public static final int Article_TOP = 1;
+    // 存入时给定基础权重
+    public static final int Article_Common = 0;
+
+    @TableId(value = "article_id", type = IdType.AUTO)
     private Long articleId;
     /**
     * 评论数量

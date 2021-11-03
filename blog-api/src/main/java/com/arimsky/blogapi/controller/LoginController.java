@@ -2,7 +2,7 @@ package com.arimsky.blogapi.controller;
 
 import com.arimsky.blogapi.base.ResultData;
 import com.arimsky.blogapi.service.LoginService;
-import com.arimsky.blogapi.vo.LoginParam;
+import com.arimsky.blogapi.vo.params.LoginParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

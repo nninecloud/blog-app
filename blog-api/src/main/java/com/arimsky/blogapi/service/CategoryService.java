@@ -1,5 +1,6 @@
 package com.arimsky.blogapi.service;
 
+import com.arimsky.blogapi.base.ResultData;
 import com.arimsky.blogapi.vo.CategoryVo;
 
 /**
@@ -11,4 +12,6 @@ import com.arimsky.blogapi.vo.CategoryVo;
 
 public interface CategoryService {
     CategoryVo findCategoryById(Integer categoryId);
+
+    ResultData<Object> finAll();
 }

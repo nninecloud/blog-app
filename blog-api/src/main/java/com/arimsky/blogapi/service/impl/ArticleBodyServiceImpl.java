@@ -21,10 +21,10 @@ public class ArticleBodyServiceImpl implements ArticleBodyService {
     @Resource
     private ArticleBodyMapper articleBodyMapper;
 
-    private LambdaQueryWrapper<ArticleBody> wrapper = new LambdaQueryWrapper<>();
 
     @Override
     public ArticleBodyVo findArticleBodyById(Long bodyId) {
+        LambdaQueryWrapper<ArticleBody> wrapper = new LambdaQueryWrapper<>();
 
         wrapper.eq(ArticleBody::getBodyId, bodyId);
 

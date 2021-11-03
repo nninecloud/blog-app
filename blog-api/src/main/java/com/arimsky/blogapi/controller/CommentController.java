@@ -2,7 +2,7 @@ package com.arimsky.blogapi.controller;
 
 import com.arimsky.blogapi.base.ResultData;
 import com.arimsky.blogapi.service.CommentService;
-import com.arimsky.blogapi.vo.CommentParam;
+import com.arimsky.blogapi.vo.params.CommentParam;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

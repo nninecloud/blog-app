@@ -1,5 +1,6 @@
 package com.arimsky.blogapi.service;
 
+import com.arimsky.blogapi.base.ResultData;
 import com.arimsky.blogapi.vo.TagVo;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface TagService {
     List<TagVo> findTagsByArticleId(Long articleId);
 
     List<TagVo> hotTags(int limit);
+
+    ResultData<Object> findAll();
 }

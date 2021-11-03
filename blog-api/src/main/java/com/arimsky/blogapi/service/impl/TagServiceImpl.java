@@ -1,9 +1,11 @@
 package com.arimsky.blogapi.service.impl;
 
+import com.arimsky.blogapi.base.ResultData;
 import com.arimsky.blogapi.dao.TagMapper;
 import com.arimsky.blogapi.pojo.entity.Tag;
 import com.arimsky.blogapi.service.TagService;
 import com.arimsky.blogapi.vo.TagVo;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,15 @@ public class TagServiceImpl implements TagService {
         List<Tag> tagList = tagMapper.findTagsByTagIds(hotTagsIds);
 
         return copyList(tagList);
+    }
+
+    @Override
+    public ResultData<Object> findAll() {
+
+        //noinspection unchecked
+        List<Tag> tags = tagMapper.selectList(new LambdaQueryWrapper<Tag>().orderByAsc(Tag::getId));
+
+        return ResultData.success(copyList(tags));
     }
 
     private List<TagVo> copyList(List<Tag> records) {
