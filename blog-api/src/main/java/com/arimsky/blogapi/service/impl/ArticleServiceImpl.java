@@ -15,6 +15,7 @@ import com.arimsky.blogapi.vo.params.ArticleParam;
 import com.arimsky.blogapi.vo.params.PageBean;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
@@ -43,38 +44,57 @@ public class ArticleServiceImpl implements ArticleService {
     @Resource
     private CategoryService categoryService;
 
+// #region
+//    @Override
+//    public List<ArticleVo> listArticlesPage(PageBean pageBean) {
+//
+//        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
+//
+//        if (pageBean.getCategoryId() != null) {
+//            wrapper.eq(Article::getCategoryId, pageBean.getCategoryId());
+//        }
+//
+//        List<Long> articleIdList = new ArrayList<>();
+//
+//        if (pageBean.getTagId() != null) {
+//            LambdaQueryWrapper<ArticleTag> articleTagWrapper = new LambdaQueryWrapper<>();
+//            articleTagWrapper.eq(ArticleTag::getTagId, pageBean.getTagId());
+//            List<ArticleTag> articleTags = articleTagMapper.selectList(articleTagWrapper);
+//            for (ArticleTag articleTag : articleTags) {
+//                articleIdList.add(articleTag.getArticleId());
+//            }
+//            if (articleIdList.size() > 0) {
+//                wrapper.in(Article::getArticleId, articleIdList);
+//            }
+//        }
+//
+//        //noinspection unchecked
+//        wrapper.orderByDesc(Article::getWeight, Article::getCreateDate);
+//        Page<Article> page = new Page<>(pageBean.getPage(), pageBean.getPageSize());
+//
+//        Page<Article> pages = articleMapper.selectPage(page, wrapper);
+////        List<ArticleVo> articleVoList = copyList(pages.getRecords(), true,  true);
+//
+//        return copyList(pages.getRecords(), true, true);
+//    }
+// #endregion
 
     @Override
     public List<ArticleVo> listArticlesPage(PageBean pageBean) {
 
-        LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
-
-        if (pageBean.getCategoryId() != null) {
-            wrapper.eq(Article::getCategoryId, pageBean.getCategoryId());
-        }
-
-        List<Long> articleIdList = new ArrayList<>();
-
-        if (pageBean.getTagId() != null) {
-            LambdaQueryWrapper<ArticleTag> articleTagWrapper = new LambdaQueryWrapper<>();
-            articleTagWrapper.eq(ArticleTag::getTagId, pageBean.getTagId());
-            List<ArticleTag> articleTags = articleTagMapper.selectList(articleTagWrapper);
-            for (ArticleTag articleTag : articleTags) {
-                articleIdList.add(articleTag.getArticleId());
-            }
-            if (articleIdList.size() > 0) {
-                wrapper.in(Article::getArticleId, articleIdList);
-            }
-        }
-
-        //noinspection unchecked
-        wrapper.orderByDesc(Article::getWeight, Article::getCreateDate);
         Page<Article> page = new Page<>(pageBean.getPage(), pageBean.getPageSize());
 
-        Page<Article> pages = articleMapper.selectPage(page, wrapper);
-//        List<ArticleVo> articleVoList = copyList(pages.getRecords(), true,  true);
+        IPage<Article> articleIPage = articleMapper.listArticle(
+                page,
+                pageBean.getCategoryId(),
+                pageBean.getTagId(),
+                pageBean.getYear(),
+                pageBean.getMonth());
 
-        return copyList(pages.getRecords(), true, true);
+        List<Article> records = articleIPage.getRecords();
+
+
+        return copyList(records, true, true);
     }
 
     @Override

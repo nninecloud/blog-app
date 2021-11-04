@@ -5,6 +5,7 @@ import com.arimsky.blogapi.pojo.entity.ArticleTag;
 import com.arimsky.blogapi.vo.ArticleVo;
 import com.arimsky.blogapi.vo.params.PageBean;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
@@ -32,23 +33,25 @@ class ArticleMapperTest {
 
     @Test
     void listArchives() {
-        Article article = new Article();
-        article.setCommentCounts(0);
-        article.setCreateDate(0L);
-        article.setSummary("");
-        article.setTitle("");
-        article.setViewCounts(0);
-        article.setWeight(0);
-        article.setAuthorId(0L);
-        article.setCategoryId(0);
+        PageBean pageBean = new PageBean();
+        pageBean.setPage(1);
+        pageBean.setPageSize(5);
+        pageBean.setYear("2021");
+        pageBean.setMonth("5");
 
-        articleMapper.insert(article);
+        Page<Article> page = new Page<>(pageBean.getPage(),pageBean.getPageSize());
 
-        System.out.println(article.getBodyId());
+        IPage<Article> articleIPage = articleMapper.listArticle(
+                page,
+                pageBean.getCategoryId(),
+                pageBean.getTagId(),
+                pageBean.getYear(),
+                pageBean.getMonth());
 
+        List<Article> records = articleIPage.getRecords();
 
-        articleMapper.updateById(article);
-        System.out.println(article.getBodyId());
+        System.out.println(records.get(0));
+
     }
 
     @Test
