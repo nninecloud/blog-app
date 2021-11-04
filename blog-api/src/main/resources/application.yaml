@@ -21,6 +21,10 @@ spring:
   batch:
     jdbc:
       table-prefix: blog_
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
 #  redis:
 #    database: 0
 #    # Redis服务器地址 写你的ip

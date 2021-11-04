@@ -22,6 +22,10 @@ public class ExceptionHandlerBridge {
         return ResultData.error(ReturnCode.RC999.getCode(),ReturnCode.RC999.getMessage());
     }
 
-
+    @ExceptionHandler(UploadException.class)
+    public ResultData<Object> uploadException(UploadException e){
+        e.printStackTrace();
+        return ResultData.error(e.getStatus(), e.getMessage());
+    }
 
 }
