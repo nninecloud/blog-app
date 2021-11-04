@@ -53,7 +53,8 @@ public class LogAspect {
     }
 
     private void recordLog(ProceedingJoinPoint point, long executionTime) {
-
+        //  getSignature()  返回修饰符+ 包名 + 组件名(类名) +方法名
+        // 获取方法上的注解
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = signature.getMethod();
         LogAnnotation logAnnotation = method.getAnnotation(LogAnnotation.class);
@@ -61,6 +62,7 @@ public class LogAspect {
         log.info("module:{}", logAnnotation.module());
         log.info("operation:{}", logAnnotation.operation());
 
+        // getTarget() 获取切入点所在目标对象
         // 请求的方法名
         String className = point.getTarget().getClass().getName();
         String methodName = signature.getName();

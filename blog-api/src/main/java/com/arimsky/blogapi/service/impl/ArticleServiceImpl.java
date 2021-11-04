@@ -140,12 +140,13 @@ public class ArticleServiceImpl implements ArticleService {
         LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Article::getArticleId, id);
         Article article = articleMapper.selectOne(wrapper);
+        ArticleVo articleVo = copy(article, true, true, true, true);
+        articleVo.setViewCounts(article.getViewCounts() + 1);
         // 每访问一次， 访问次数加  1
         threadService.updateViewCount(articleMapper, article);
         // 加一后 更新 本次显示的访问次数
-        article.setViewCounts(article.getViewCounts() + 1);
 
-        return copy(article, true, true, true, true);
+        return articleVo;
     }
 
     @Resource

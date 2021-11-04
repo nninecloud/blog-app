@@ -35,6 +35,7 @@ public class ArticleController {
     @PostMapping
     //加上此注解 代表要对此接口记录日志
     @LogAnnotation(module="文章",operation="获取文章列表")
+//    @Cache(expire = 5 * 60 * 1000,name = "list_Articles")
     public ResultData<Object> articles(@RequestBody PageBean pageBean){
         List<ArticleVo> articleVoList = articleService.listArticlesPage(pageBean);
 
@@ -45,6 +46,7 @@ public class ArticleController {
      * 最热文章
      */
     @PostMapping("/hot")
+//    @Cache(expire = 5 * 60 * 1000,name = "hot_article")
     public ResultData<Object> hotArticles(){
         int limit = 5;
         List<ArticleVo> articleVoList = articleService.hotArticles(limit);
@@ -55,6 +57,7 @@ public class ArticleController {
      * 最新文章
      */
     @PostMapping("/new")
+//    @Cache(expire = 5 * 60 * 1000,name = "news_article")
     public ResultData<Object> newArticles(){
         int limit = 5;
         List<ArticleVo> articleVoList = articleService.newArticles(limit);
@@ -73,7 +76,7 @@ public class ArticleController {
      *   把时间戳转换成年月日
      */
     @PostMapping("/listArchives")
-    @LogAnnotation(module = "文章", operation = "文章归档")
+//    @LogAnnotation(module = "文章", operation = "文章归档")
     public ResultData<Object> listArchives(){
         List<Archives> archivesList = articleService.listArchives();
         return ResultData.success(archivesList);
@@ -96,6 +99,7 @@ public class ArticleController {
      */
     @PostMapping("publish")
     @LogAnnotation(module="文章",operation="写文章,发布")
+//    @Cache(expire = 5 * 60 * 1000,name = "publish")
     public ResultData<Object> publish(@RequestBody ArticleParam articleParam){
         return articleService.publish(articleParam);
     }
