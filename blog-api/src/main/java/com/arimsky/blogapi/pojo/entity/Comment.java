@@ -3,6 +3,7 @@ package com.arimsky.blogapi.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.ToString;
 
@@ -16,6 +17,7 @@ import java.io.Serializable;
  */
 @Data
 @ToString
+@TableName("blog_comment")
 public class Comment implements Serializable {
     private static final long serialVersionUID = -12531098839216638L;
 

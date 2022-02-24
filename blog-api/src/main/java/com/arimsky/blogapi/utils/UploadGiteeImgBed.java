@@ -35,7 +35,8 @@ public class UploadGiteeImgBed {
     /**
      * 上传时指定存放图片路径
      */
-    public static final String PATH = "/blogappImag/"+ DateUtils.getYearMonth()+"/"; //使用到了日期工具类
+    public static final String PATH = "/blogappImag/"+ DateUtils.getYearMonth()+"/";
+    //使用到了日期工具类
 
 
     /**
